@@ -1,21 +1,3 @@
-# def probabilities(card_combinations):
-
-#     def percentages(value):
-#         return round(value * 100, 2)
-
-#     return {
-#         "Straight:": percentages(straight(card_combinations)),
-#         "Three-of-a-Kind": percentages(three_of_a_kind(card_combinations)), 
-#         "Two Pair": percentages(two_pair(card_combinations)),
-#         "Pair": percentages(pair(card_combinations))
-#     }
-
-# def higher_counts(card_combinations):
-#     list_of_ranks = {"Pair": 1}
-#     if straight(card_combinations) == 1:
-#         list_of_ranks["Pair"] = 0
-
-#     return list_of_ranks
 
 def symbol_converter(tuple):
     temp_values = []
@@ -47,7 +29,6 @@ def ranks(card_combinations):
         bools = {"Is Flush": False, "Is Straight": False}
         for i in range(7):
             build_tuples.append((int(symbol_list[i]), colour_list[i]))
-        #print(build_tuples)
 
         # ----- Flush -----
         build_flush = []
@@ -62,14 +43,11 @@ def ranks(card_combinations):
                 for j in build_tuples:
                     if j[1] == i:
                         build_flush.append(j)
-                #print("Farbe: ", i)
-                #print(build_flush)
                 break
             else:
                 bools["Is Flush"] = False
             counter = 0
         sorted_flush = sorted(build_flush, key=lambda x: x[0])
-        #print(sorted_flush)
         # -----------------
 
         # ----- Straight -----

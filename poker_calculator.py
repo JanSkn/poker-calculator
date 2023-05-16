@@ -64,13 +64,13 @@ for i in range(len(covered_cards)): # 2 Handkarten, 3 Flopkarten, 2 Verbleibende
     for j in range(i + 1, len(covered_cards)):
         card_combinations.append((known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], covered_cards[i], covered_cards[j]))
 
-for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-    for j in range(7): # 7-Tupel
-        print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-    print("\n")
+# Ausgabe aller Kombinationen, wenn gewünscht
+# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
+#     for j in range(7): # 7-Tupel
+#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
+#     print("\n")
 
 ph.ranks(card_combinations)
-#print(ph.probabilities(card_combinations))
 # ------------------------------------------------------
 # ----------------
 
@@ -85,18 +85,17 @@ known_cards = my_cards + turn
 
 # ----- Alle möglichen Kombinationen nach dem Turn -----
 card_combinations = []
-#known_cards = [Card("Hearts", "8"), Card("Hearts", "3"), Card("Hearts", "4"), Card("Hearts", "5"), Card("Hearts", "2"), Card("Spades", "3")] # WIEDER LÖSCHEN NUR ZUM TESTEN
 
 for i in range(len(covered_cards)): # 2 Handkarten, 4 Turnkarten, 1 Verbleibende --> alle möglichen Kombinationen in einem 7-Tupel
     card_combinations.append((known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], known_cards[5], covered_cards[i]))
 
-for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-    for j in range(7): # 7-Tupel
-        print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-    print("\n")
+# Ausgabe aller Kombinationen, wenn gewünscht
+# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
+#     for j in range(7): # 7-Tupel
+#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
+#     print("\n")
 
 ph.ranks(card_combinations)
-#print(ph.probabilities(card_combinations))
 # -------------------------------------------------------
 # -----------------
  
@@ -110,13 +109,13 @@ known_cards = my_cards + river
 
 card_combinations = [(known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], known_cards[5], known_cards[6])]
 
-for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-    for j in range(7): # 7-Tupel
-        print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-    print("\n")
+# Ausgabe aller Kombinationen, wenn gewünscht
+# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
+#     for j in range(7): # 7-Tupel
+#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
+#     print("\n")
 
 ph.ranks(card_combinations)
-#print(ph.probabilities(card_combinations))
 # ----------------
 
 
