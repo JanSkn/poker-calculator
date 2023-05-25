@@ -1,5 +1,7 @@
 import random
 import itertools
+from bs4 import BeautifulSoup
+from  selenium import webdriver
 import poker_hands as ph
 
 # TO DOS: Fehler mit Pop out of Index fixen

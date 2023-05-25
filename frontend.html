@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokerrechner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/background.jpg');
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+        
+        #community-cards {
+            width: 100%;
+            max-width: 800px;
+            height: 350px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background-image: url('images/table.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        #hand-cards {
+            width: 100%;
+            max-width: 800px;
+            height: 100px;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #probabilities {
+            width: 100%;
+            max-width: 800px;
+            margin: 80px auto;
+            text-align: center;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #card-list {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card {
+            width: 60px;
+            height: 90px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+            text-align: center;
+            line-height: 90px;
+            font-weight: bold;
+            cursor: move;
+        }
+        
+        .card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .card.spades {
+            background-color: #fff;
+            color: #000;
+        }
+        
+        .card.hearts {
+            background-color: #fff;
+            color: #f00;
+        }
+        
+        .card.diamonds {
+            background-color: #fff;
+            color: #f00;
+        }
+        
+        .card.clubs {
+            background-color: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="community-cards"></div>
+    <div id="hand-cards"></div>
+    <div id="probabilities">
+        <h1>Probabilities:</h1>
+        lorem ipsum
+    </div>
+    <div id="card-list">
+        <!-- Hearts -->
+        <div class="card hearts" draggable="true">&#9829; 2</div>
+        <div class="card hearts" draggable="true">&#9829; 3</div>
+        <div class="card hearts" draggable="true">&#9829; 4</div>
+        <div class="card hearts" draggable="true">&#9829; 5</div>
+        <div class="card hearts" draggable="true">&#9829; 6</div>
+        <div class="card hearts" draggable="true">&#9829; 7</div>
+        <div class="card hearts" draggable="true">&#9829; 8</div>
+        <div class="card hearts" draggable="true">&#9829; 9</div>
+        <div class="card hearts" draggable="true">&#9829; 10</div>
+        <div class="card hearts" draggable="true">&#9829; J</div>
+        <div class="card hearts" draggable="true">&#9829; Q</div>
+        <div class="card hearts" draggable="true">&#9829; K</div>
+        <div class="card hearts" draggable="true">&#9829; A</div>
+        <!-- Diamonds -->
+        <div class="card diamonds" draggable="true">&#9830; 2</div>
+        <div class="card diamonds" draggable="true">&#9830; 3</div>
+        <div class="card diamonds" draggable="true">&#9830; 4</div>
+        <div class="card diamonds" draggable="true">&#9830; 5</div>
+        <div class="card diamonds" draggable="true">&#9830; 6</div>
+        <div class="card diamonds" draggable="true">&#9830; 7</div>
+        <div class="card diamonds" draggable="true">&#9830; 8</div>
+        <div class="card diamonds" draggable="true">&#9830; 9</div>
+        <div class="card diamonds" draggable="true">&#9830; 10</div>
+        <div class="card diamonds" draggable="true">&#9830; J</div>
+        <div class="card diamonds" draggable="true">&#9830; Q</div>
+        <div class="card diamonds" draggable="true">&#9830; K</div>
+        <div class="card diamonds" draggable="true">&#9830; A</div>
+        <!-- Clubs -->
+        <div class="card clubs" draggable="true">&#9827; 2</div>
+        <div class="card clubs" draggable="true">&#9827; 3</div>
+        <div class="card clubs" draggable="true">&#9827; 4</div>
+        <div class="card clubs" draggable="true">&#9827; 5</div>
+        <div class="card clubs" draggable="true">&#9827; 6</div>
+        <div class="card clubs" draggable="true">&#9827; 7</div>
+        <div class="card clubs" draggable="true">&#9827; 8</div>
+        <div class="card clubs" draggable="true">&#9827; 9</div>
+        <div class="card clubs" draggable="true">&#9827; 10</div>
+        <div class="card clubs" draggable="true">&#9827; J</div>
+        <div class="card clubs" draggable="true">&#9827; Q</div>
+        <div class="card clubs" draggable="true">&#9827; K</div>
+        <div class="card clubs" draggable="true">&#9827; A</div>
+        <!-- Spades -->
+        <div class="card spades" draggable="true">&#9824; 2</div>
+        <div class="card spades" draggable="true">&#9824; 3</div>
+        <div class="card spades" draggable="true">&#9824; 4</div>
+        <div class="card spades" draggable="true">&#9824; 5</div>
+        <div class="card spades" draggable="true">&#9824; 6</div>
+        <div class="card spades" draggable="true">&#9824; 7</div>
+        <div class="card spades" draggable="true">&#9824; 8</div>
+        <div class="card spades" draggable="true">&#9824; 9</div>
+        <div class="card spades" draggable="true">&#9824; 10</div>
+        <div class="card spades" draggable="true">&#9824; J</div>
+        <div class="card spades" draggable="true">&#9824; Q</div>
+        <div class="card spades" draggable="true">&#9824; K</div>
+        <div class="card spades" draggable="true">&#9824; A</div>     
+    </div>
+
+    <script>
+        var communityCardsContainer = document.getElementById("community-cards");
+        var handCardsContainer = document.getElementById("hand-cards");
+        var cardList = document.getElementById("card-list");
+
+        var communityCardCount = 0;
+        var handCardCount = 0;
+
+        cardList.addEventListener("dragstart", function (event) {
+            event.dataTransfer.setData("text/plain", event.target.innerHTML);
+        });
+
+        communityCardsContainer.addEventListener("dragover", function (event) {
+            event.preventDefault();
+        });
+
+        communityCardsContainer.addEventListener("drop", function (event) {
+            event.preventDefault();
+            if (communityCardCount < 5) {
+                var card = event.dataTransfer.getData("text/plain");
+                var cardElement = document.createElement("div");
+                cardElement.className = "card";
+                cardElement.innerHTML = card;
+                cardElement.addEventListener("click", function () {
+                    communityCardsContainer.removeChild(cardElement);
+                    communityCardCount--;
+                    enableCard(cardElement.innerHTML);
+                });
+
+                // Prüfen, ob die Karte bereits vorhanden ist
+                var existingCards = Array.from(communityCardsContainer.getElementsByClassName("card"));
+                var isCardExisting = existingCards.some(function (existingCard) {
+                    return existingCard.innerHTML === cardElement.innerHTML;
+                });
+
+                if (!isCardExisting) {
+                    communityCardsContainer.appendChild(cardElement);
+                    communityCardCount++;
+                    disableCard(cardElement.innerHTML);
+                }
+            }
+        });
+
+        handCardsContainer.addEventListener("dragover", function (event) {
+            event.preventDefault();
+        });
+
+        handCardsContainer.addEventListener("drop", function (event) {
+            event.preventDefault();
+            if (handCardCount < 2) {
+                var card = event.dataTransfer.getData("text/plain");
+                var cardElement = document.createElement("div");
+                cardElement.className = "card";
+                cardElement.innerHTML = card;
+                cardElement.addEventListener("click", function () {
+                    handCardsContainer.removeChild(cardElement);
+                    handCardCount--;
+                    enableCard(cardElement.innerHTML);
+                });
+
+                // Prüfen, ob die Karte bereits vorhanden ist
+                var existingCards = Array.from(handCardsContainer.getElementsByClassName("card"));
+                var isCardExisting = existingCards.some(function (existingCard) {
+                    return existingCard.innerHTML === cardElement.innerHTML;
+                });
+
+                if (!isCardExisting) {
+                    handCardsContainer.appendChild(cardElement);
+                    handCardCount++;
+                    disableCard(cardElement.innerHTML);
+                }
+            }
+        });
+
+        function disableCard(card) {
+            var cards = Array.from(cardList.getElementsByClassName("card"));
+            cards.forEach(function (cardElement) {
+                if (cardElement.innerHTML === card) {
+                    cardElement.classList.add("disabled");
+                    cardElement.removeAttribute("draggable");
+                }
+            });
+        }
+
+        function enableCard(card) {
+            var cards = Array.from(cardList.getElementsByClassName("card"));
+            cards.forEach(function (cardElement) {
+                if (cardElement.innerHTML === card) {
+                    cardElement.classList.remove("disabled");
+                    cardElement.setAttribute("draggable", "true");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
