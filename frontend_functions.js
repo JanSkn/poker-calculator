@@ -101,6 +101,7 @@ function enableCard(card) {
 // Add card to the community array
 function addToCommunityArray(card) {
     if (communityCardsArray.indexOf(card) === -1) {
+        card = convertColour(card);
         communityCardsArray.push(card);
         communityCardsAPI();
     }
@@ -108,6 +109,7 @@ function addToCommunityArray(card) {
 
 // Remove card from the community array
 function removeFromCommunityArray(card) {
+    card = convertColour(card);
     var index = communityCardsArray.indexOf(card);
     if (index !== -1) {
         communityCardsArray.splice(index, 1);
@@ -118,6 +120,7 @@ function removeFromCommunityArray(card) {
 // Add card to the hand array
 function addToHandArray(card) {
     if (handCardsArray.indexOf(card) === -1) {
+        card = convertColour(card);
         handCardsArray.push(card);
         handCardsAPI();
     }
@@ -125,11 +128,30 @@ function addToHandArray(card) {
 
 // Remove card from the hand array
 function removeFromHandArray(card) {
+    card = convertColour(card);
     var index = handCardsArray.indexOf(card);
     if (index !== -1) {
         handCardsArray.splice(index, 1);
         handCardsAPI();
     }
+}
+
+function convertColour(card) {
+    switch(card[0]) {
+        case "\u2665": // Heart
+            card = "Hearts " + card[2];
+            break;
+        case "\u2666": // Diamonds
+            card = "Diamonds " + card[2];
+            break;
+        case "\u2663": // Clubs
+            card = "Clubs " + card[2];
+            break;
+        case "\u2660": // Spades
+            card = "Spades " + card[2];
+            break;    
+    }
+    return card;
 }
 
 function handCardsAPI() {

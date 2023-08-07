@@ -1,7 +1,5 @@
 import random
 import itertools
-from bs4 import BeautifulSoup
-from  selenium import webdriver
 import poker_hands as ph
 
 # TO DOS: Fehler mit Pop out of Index fixen
@@ -26,28 +24,37 @@ symbols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"
 
 # ----- Hilfsfunktionen -----
 
-# ----- Erzeugung aller Karten -----
-cards = []
+def get_card_index(card_list: list, searched_card: Card):
+    for i, card in enumerate(card_list):
+        if card.colour == searched_card.colour and card.symbol == searched_card.symbol:
+            return i
+    return -1
 
-for i in colours:
-    for j in symbols:
-        cards.append(Card(i, j))
+# ----- Erzeugung aller Karten -----
+
+cards = [Card(colour, symbol) for colour in colours for symbol in symbols]
+
 # ----------------------------------
 
 
 # ----- Kartenverteilung -----
 
 # ----- Handkarten -----
+def get_cards_from_frontend(hand_cards_list: list, community_cards_list: list): 
+    
+    return "poker_calculator " + hand_cards_list[0]
+
+
 covered_cards = cards.copy()
-my_cards = []
+hand_cards = []
 for i in range(2):
-    my_cards.append(covered_cards.pop(random.randint(0, len(covered_cards))))
+    hand_cards.append(covered_cards.pop(random.randint(0, len(covered_cards))))
 print("My Cards:")
-for card in my_cards:
+for card in hand_cards:
     print(card)
 # ----------------------
 
-known_cards = my_cards.copy()
+known_cards = hand_cards.copy()
 
 # ----- Flop -----
 flop = []
@@ -57,7 +64,7 @@ print("Flop:")
 for card in flop:
     print(card)
 
-known_cards = my_cards + flop
+known_cards = hand_cards + flop
 
 # ----- Alle möglichen Kombinationen nach dem Flop -----
 card_combinations = []
@@ -83,7 +90,7 @@ print("Turn:")
 for card in turn:
     print(card)
 
-known_cards = my_cards + turn
+known_cards = hand_cards + turn
 
 # ----- Alle möglichen Kombinationen nach dem Turn -----
 card_combinations = []
@@ -107,7 +114,7 @@ river.append(covered_cards.pop(random.randint(0, len(covered_cards))))
 print("River:")
 for card in river:
     print(card)
-known_cards = my_cards + river
+known_cards = hand_cards + river
 
 card_combinations = [(known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], known_cards[5], known_cards[6])]
 
