@@ -1,9 +1,4 @@
-import random
-import itertools
 import poker_hands as ph
-
-# TO DOS: Fehler mit Pop out of Index fixen
-# !!!!! anscheinend straße auch mit Ass beginnend möglich
 
 class Card:
     def __init__(self, colour, symbol):
@@ -20,117 +15,83 @@ class Card:
         return f"{self.symbol} of {self.colour}"
 
 colours = ["Hearts", "Diamonds", "Clubs", "Spades"]
-symbols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
-
-# ----- Hilfsfunktionen -----
+symbols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 def get_card_index(card_list: list, searched_card: Card):
+    """
+    returns the index of a card in an array
+    """
     for i, card in enumerate(card_list):
         if card.colour == searched_card.colour and card.symbol == searched_card.symbol:
             return i
     return -1
 
-# ----- Erzeugung aller Karten -----
+def convert_to_card_objects(cards: list):
+    """
+    changes representation of a card from a tuple to a card object
+    """
+    return [Card(colour, symbol) for colour, symbol in cards]
 
 cards = [Card(colour, symbol) for colour in colours for symbol in symbols]
 
-# ----------------------------------
+# ----- called by API -----
 
+def update_cards(hand_cards: list, community_cards: list): 
+    """
+    Wrapper function, call this function for the REST API
+    """
+    hand_cards = convert_to_card_objects(hand_cards)
+    community_cards = convert_to_card_objects(community_cards)
+    get_hand_cards(hand_cards)
+    get_community_cards(community_cards)
+    covered_cards = update_covered_cards(hand_cards, community_cards)
+    community(hand_cards, community_cards, covered_cards)
 
-# ----- Kartenverteilung -----
+# -------------------------
 
-# ----- Handkarten -----
-def get_cards_from_frontend(hand_cards_list: list, community_cards_list: list): 
-    
-    return "poker_calculator " + hand_cards_list[0]
+def get_hand_cards(hand_cards: list): 
+    print("Hand cards:")
+    for hand_card in hand_cards:
+        print(hand_card)
+    print()
 
+def get_community_cards(community_cards: list): 
+    print("Community cards:")
+    for community_card in community_cards:
+        print(community_card)
+    print()
 
-covered_cards = cards.copy()
-hand_cards = []
-for i in range(2):
-    hand_cards.append(covered_cards.pop(random.randint(0, len(covered_cards))))
-print("My Cards:")
-for card in hand_cards:
-    print(card)
-# ----------------------
+def update_covered_cards(hand_cards: list, community_cards: list):
+    """
+    Remove revealed cards (hand cards and community cards) from the stack of all cards
+    """
+    covered_cards = cards.copy()
+    for card in hand_cards:
+        covered_cards.pop(get_card_index(covered_cards, card))  
+    for card in community_cards:
+        covered_cards.pop(get_card_index(covered_cards, card))  
+    return covered_cards
 
-known_cards = hand_cards.copy()
+def community(hand_cards: list, community_cards: list, covered_cards: list):
+    uncovered_cards = hand_cards + community_cards
+    card_combinations = []
 
-# ----- Flop -----
-flop = []
-for i in range(3):
-    flop.append(covered_cards.pop(random.randint(0, len(covered_cards))))
-print("Flop:")
-for card in flop:
-    print(card)
+    if len(hand_cards) == 2 and len(community_cards) >= 3:
+        # Flop
+        if len(community_cards) == 3:
+            for i in range(len(covered_cards)):
+                for j in range(i + 1, len(covered_cards)):
+                    card_combinations.append((uncovered_cards[0], uncovered_cards[1], uncovered_cards[2], uncovered_cards[3], uncovered_cards[4], covered_cards[i], covered_cards[j]))
+        # Turn
+        elif len(community_cards) == 4:
+            for i in range(len(covered_cards)):
+                card_combinations.append((uncovered_cards[0], uncovered_cards[1], uncovered_cards[2], uncovered_cards[3], uncovered_cards[4], uncovered_cards[5], covered_cards[i]))
+        # River
+        elif len(community_cards) == 5:
+            card_combinations = [(uncovered_cards[0], uncovered_cards[1], uncovered_cards[2], uncovered_cards[3], uncovered_cards[4], uncovered_cards[5], uncovered_cards[6])]
 
-known_cards = hand_cards + flop
+        return ph.ranks(card_combinations)
 
-# ----- Alle möglichen Kombinationen nach dem Flop -----
-card_combinations = []
-
-for i in range(len(covered_cards)): # 2 Handkarten, 3 Flopkarten, 2 Verbleibende --> alle möglichen Kombinationen in einem 7-Tupel
-    for j in range(i + 1, len(covered_cards)):
-        card_combinations.append((known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], covered_cards[i], covered_cards[j]))
-
-# Ausgabe aller Kombinationen, wenn gewünscht
-# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-#     for j in range(7): # 7-Tupel
-#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-#     print("\n")
-
-ph.ranks(card_combinations)
-# ------------------------------------------------------
-# ----------------
-
-# ----- Turn -----
-turn = flop.copy()
-turn.append(covered_cards.pop(random.randint(0, len(covered_cards))))
-print("Turn:")
-for card in turn:
-    print(card)
-
-known_cards = hand_cards + turn
-
-# ----- Alle möglichen Kombinationen nach dem Turn -----
-card_combinations = []
-
-for i in range(len(covered_cards)): # 2 Handkarten, 4 Turnkarten, 1 Verbleibende --> alle möglichen Kombinationen in einem 7-Tupel
-    card_combinations.append((known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], known_cards[5], covered_cards[i]))
-
-# Ausgabe aller Kombinationen, wenn gewünscht
-# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-#     for j in range(7): # 7-Tupel
-#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-#     print("\n")
-
-ph.ranks(card_combinations)
-# -------------------------------------------------------
-# -----------------
- 
-# ----- River -----
-river = turn.copy()
-river.append(covered_cards.pop(random.randint(0, len(covered_cards))))
-print("River:")
-for card in river:
-    print(card)
-known_cards = hand_cards + river
-
-card_combinations = [(known_cards[0], known_cards[1], known_cards[2], known_cards[3], known_cards[4], known_cards[5], known_cards[6])]
-
-# Ausgabe aller Kombinationen, wenn gewünscht
-# for i in range(len(card_combinations)): # Mögliche Kombinationen aller Karten
-#     for j in range(7): # 7-Tupel
-#         print(card_combinations[i][j], " ", end="") # erster Index: Tupel in Liste, zweiter Index: Element innerhalb des Tupels
-#     print("\n")
-
-ph.ranks(card_combinations)
-# ----------------
-
-
-
-
-# ----------------------------
 
 
 

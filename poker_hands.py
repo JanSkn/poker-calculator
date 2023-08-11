@@ -2,13 +2,13 @@
 def symbol_converter(tuple):
     temp_values = []
     for i in range(len(tuple)):
-        if tuple[i].symbol == "Jack":
+        if tuple[i].symbol == "J":
             temp_values.append("11")
-        elif tuple[i].symbol == "Queen":
+        elif tuple[i].symbol == "Q":
             temp_values.append("12")
-        elif tuple[i].symbol == "King":
+        elif tuple[i].symbol == "K":
             temp_values.append("13")
-        elif tuple[i].symbol == "Ace":
+        elif tuple[i].symbol == "A":
             temp_values.append("14")
         else:
             temp_values.append(tuple[i].symbol)
@@ -51,6 +51,7 @@ def ranks(card_combinations):
         # -----------------
 
         # ----- Straight -----
+        # !!! auch mit ass beginnend
         if bools["Is Flush"] == True:
             counter = 0
             building_straight = []

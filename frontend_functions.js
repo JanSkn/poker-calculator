@@ -98,10 +98,14 @@ function enableCard(card) {
     });
 }
 
+function arraysEqual(arr1, arr2) {
+    return arr1[0] === arr2[0] && arr1[1] === arr2[1];
+}
+
 // Add card to the community array
 function addToCommunityArray(card) {
-    if (communityCardsArray.indexOf(card) === -1) {
-        card = convertColour(card);
+    card = convertColour(card);
+    if(!communityCardsArray.some(arr => arr[0] === card[0] && arr[1] === card[1])) {
         communityCardsArray.push(card);
         communityCardsAPI();
     }
@@ -110,61 +114,72 @@ function addToCommunityArray(card) {
 // Remove card from the community array
 function removeFromCommunityArray(card) {
     card = convertColour(card);
-    var index = communityCardsArray.indexOf(card);
-    if (index !== -1) {
-        communityCardsArray.splice(index, 1);
-        communityCardsAPI();
-    }
+    communityCardsArray = communityCardsArray.filter(arr => !arraysEqual(arr, card));
+    communityCardsAPI();
 }
 
 // Add card to the hand array
 function addToHandArray(card) {
-    if (handCardsArray.indexOf(card) === -1) {
-        card = convertColour(card);
+    card = convertColour(card);
+    if(!handCardsArray.some(arr => arr[0] === card[0] && arr[1] === card[1])) {
         handCardsArray.push(card);
         handCardsAPI();
     }
+    /*if (handCardsArray.indexOf(card) === -1) {
+        card = convertColour(card);
+        handCardsArray.push(card);
+        handCardsAPI();
+    }*/
 }
+
 
 // Remove card from the hand array
 function removeFromHandArray(card) {
     card = convertColour(card);
-    var index = handCardsArray.indexOf(card);
+    handCardsArray = handCardsArray.filter(arr => !arraysEqual(arr, card));
+    handCardsAPI();
+
+    
+    /*var index = handCardsArray.indexOf(card);
     if (index !== -1) {
         handCardsArray.splice(index, 1);
         handCardsAPI();
-    }
+    }*/
 }
 
 function convertColour(card) {
+    // Index for symbols is 2 because of the Blank Character
     switch(card[0]) {
         case "\u2665": // Heart
-            card = "Hearts " + card[2];
+            card = ["Hearts", card[2]]; 
             break;
         case "\u2666": // Diamonds
-            card = "Diamonds " + card[2];
+            card = ["Diamonds", card[2]];
             break;
         case "\u2663": // Clubs
-            card = "Clubs " + card[2];
+            card = ["Clubs", card[2]];
             break;
         case "\u2660": // Spades
-            card = "Spades " + card[2];
+            card = ["Spades", card[2]];
             break;    
     }
+
+    if(card[1] === "1") card[1] = "10"; // Special Case: 10 has 2 indices
+
     return card;
 }
 
 function handCardsAPI() {
     const data = handCardsArray;
 
-    fetch("http://localhost:8000/update_hand_cards", {                           // HTTP-Anfrage an URL
+    fetch("http://localhost:8000/update_hand_cards", {                           
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())              // warten auf Response
+            .then(response => response.json())              
             .catch(error => {
                 console.error("Error:", error);
             });
@@ -173,14 +188,14 @@ function handCardsAPI() {
 function communityCardsAPI() {
     const data = communityCardsArray;
 
-    fetch("http://localhost:8000/update_community_cards", {                           // HTTP-Anfrage an URL
+    fetch("http://localhost:8000/update_community_cards", {                          
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())              // warten auf Response
+            .then(response => response.json())              
             .catch(error => {
                 console.error("Error:", error);
             });
