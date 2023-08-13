@@ -45,7 +45,7 @@ def update_cards(hand_cards: list, community_cards: list):
     get_hand_cards(hand_cards)
     get_community_cards(community_cards)
     covered_cards = update_covered_cards(hand_cards, community_cards)
-    community(hand_cards, community_cards, covered_cards)
+    return community(hand_cards, community_cards, covered_cards)
 
 # -------------------------
 

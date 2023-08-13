@@ -169,34 +169,54 @@ function convertColour(card) {
     return card;
 }
 
-function handCardsAPI() {
+function formatDictionary(result) {
+    const cleanedResult = result.replace(/'/g, '"');
+    const parsedResult = JSON.parse(cleanedResult);
+    const lastKey = "Highest Card"
+    var string = ""
+    for (const key in parsedResult) {
+        string += `${key}: ${parsedResult[key]}`;
+        if(key != lastKey) string += ', ';
+    }
+    return string;
+  }
+
+async function handCardsAPI() {
     const data = handCardsArray;
 
-    fetch("http://localhost:8000/update_hand_cards", {                           
+    const response = await fetch("http://localhost:8000/update_hand_cards", {                           
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
-            })
-            .then(response => response.json())              
+            })           
             .catch(error => {
-                console.error("Error:", error);
+                console.error("Error: ", error);
             });
+
+    const result = await response.text();
+    formatDictionary(result);
+    console.log(result);
+    document.getElementById("result").innerHTML = formatDictionary(result);
+
 }
 
-function communityCardsAPI() {
+async function communityCardsAPI() {
     const data = communityCardsArray;
 
-    fetch("http://localhost:8000/update_community_cards", {                          
+    const response = await fetch("http://localhost:8000/update_community_cards", {                          
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())              
             .catch(error => {
-                console.error("Error:", error);
+                console.error("Error: ", error);
             });
+
+    const result = await response.text();
+    console.log(result);
+    document.getElementById("result").innerHTML = formatDictionary(result);
 }
