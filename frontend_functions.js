@@ -125,11 +125,6 @@ function addToHandArray(card) {
         handCardsArray.push(card);
         handCardsAPI();
     }
-    /*if (handCardsArray.indexOf(card) === -1) {
-        card = convertColour(card);
-        handCardsArray.push(card);
-        handCardsAPI();
-    }*/
 }
 
 
@@ -138,13 +133,6 @@ function removeFromHandArray(card) {
     card = convertColour(card);
     handCardsArray = handCardsArray.filter(arr => !arraysEqual(arr, card));
     handCardsAPI();
-
-    
-    /*var index = handCardsArray.indexOf(card);
-    if (index !== -1) {
-        handCardsArray.splice(index, 1);
-        handCardsAPI();
-    }*/
 }
 
 function convertColour(card) {
@@ -169,18 +157,6 @@ function convertColour(card) {
     return card;
 }
 
-function formatDictionary(result) {
-    const cleanedResult = result.replace(/'/g, '"');
-    const parsedResult = JSON.parse(cleanedResult);
-    const lastKey = "Highest Card"
-    var string = ""
-    for (const key in parsedResult) {
-        string += `${key}: ${parsedResult[key]}`;
-        if(key != lastKey) string += ', ';
-    }
-    return string;
-  }
-
 async function handCardsAPI() {
     const data = handCardsArray;
 
@@ -195,11 +171,13 @@ async function handCardsAPI() {
                 console.error("Error: ", error);
             });
 
-    const result = await response.text();
-    formatDictionary(result);
-    console.log(result);
-    document.getElementById("result").innerHTML = formatDictionary(result);
-
+    if(response.ok) {
+        const result = JSON.parse(await response.text());
+        console.log(result);
+        for(const key of Object.keys(result)) {
+            document.getElementById(key).innerHTML = result[key];
+        }
+    }
 }
 
 async function communityCardsAPI() {
@@ -216,7 +194,11 @@ async function communityCardsAPI() {
                 console.error("Error: ", error);
             });
 
-    const result = await response.text();
-    console.log(result);
-    document.getElementById("result").innerHTML = formatDictionary(result);
+    if(response.ok) {
+        const result = JSON.parse(await response.text());
+        console.log(result);
+        for(const key of Object.keys(result)) {
+            document.getElementById(key).innerHTML = result[key];
+        }
+    }
 }

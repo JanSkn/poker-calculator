@@ -178,6 +178,6 @@ def ranks(card_combinations):
 
     percentages = occurances.copy()
     for i in occurances.keys():
-            percentages[i] = round((percentages[i]/len(card_combinations)) * 100, 2)
+            percentages[i] = str(round((percentages[i]/len(card_combinations)) * 100, 2)) + "%"
     print(percentages)
     return percentages

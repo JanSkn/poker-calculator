@@ -17,6 +17,21 @@ class Card:
 colours = ["Hearts", "Diamonds", "Clubs", "Spades"]
 symbols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
+# ----- called by API -----
+
+def update_cards(hand_cards: list, community_cards: list): 
+    """
+    Wrapper function, call this function for the REST API
+    """
+    hand_cards = convert_to_card_objects(hand_cards)
+    community_cards = convert_to_card_objects(community_cards)
+    get_hand_cards(hand_cards)
+    get_community_cards(community_cards)
+    covered_cards = update_covered_cards(hand_cards, community_cards)
+    return community(hand_cards, community_cards, covered_cards)
+
+# -------------------------
+
 def get_card_index(card_list: list, searched_card: Card):
     """
     returns the index of a card in an array
@@ -33,21 +48,6 @@ def convert_to_card_objects(cards: list):
     return [Card(colour, symbol) for colour, symbol in cards]
 
 cards = [Card(colour, symbol) for colour in colours for symbol in symbols]
-
-# ----- called by API -----
-
-def update_cards(hand_cards: list, community_cards: list): 
-    """
-    Wrapper function, call this function for the REST API
-    """
-    hand_cards = convert_to_card_objects(hand_cards)
-    community_cards = convert_to_card_objects(community_cards)
-    get_hand_cards(hand_cards)
-    get_community_cards(community_cards)
-    covered_cards = update_covered_cards(hand_cards, community_cards)
-    return community(hand_cards, community_cards, covered_cards)
-
-# -------------------------
 
 def get_hand_cards(hand_cards: list): 
     print("Hand cards:")
@@ -91,6 +91,8 @@ def community(hand_cards: list, community_cards: list, covered_cards: list):
             card_combinations = [(uncovered_cards[0], uncovered_cards[1], uncovered_cards[2], uncovered_cards[3], uncovered_cards[4], uncovered_cards[5], uncovered_cards[6])]
 
         return ph.ranks(card_combinations)
+    else:
+        return {"Straight Flush": "0.0%", "Four-of-a-Kind": "0.0%", "Full House": "0.0%", "Flush": "0.0%", "Straight": "0.0%", "Three-of-a-Kind": "0.0%", "Two Pair": "0.0%", "Pair": "0.0%", "Highest Card": "0.0%"}
 
 
 
