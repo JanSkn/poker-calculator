@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import poker_calculator as pc
+from combinations import update_cards
 
 hand_cards = []
 community_cards = []
@@ -20,13 +20,13 @@ app.add_middleware(
 async def update_hand_cards(cards: list):
     global hand_cards
     hand_cards = cards
-    result = pc.update_cards(hand_cards, community_cards)
+    result = update_cards(hand_cards, community_cards)
     return result
 
 @app.post("/update_community_cards")
 async def update_community_cards(cards: list):
     global community_cards 
     community_cards = cards
-    result = pc.update_cards(hand_cards, community_cards)
+    result = update_cards(hand_cards, community_cards)
     return result
 
