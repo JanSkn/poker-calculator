@@ -35,6 +35,8 @@ Royal Flush is not listed since it is the highest Straight Flush and only has 4 
 
 The frontend of this project was made with HTML and Javascript, the calculations are done with Python. Data is exchanged with REST-Api.
 
+Please note that the calculator does not consider other players yet.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
