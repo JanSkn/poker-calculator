@@ -47,6 +47,19 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
+        .card-container {
+            position: relative;
+        }
+
+        .card-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5px;
+            color: #fff;
+            opacity: 0.5;
+        }
         
         .card {
             width: 60px;
@@ -89,7 +102,7 @@
         #probabilities {
             width: 100%;
             max-width: 800px;
-            margin: 80px auto;
+            margin: 50px auto;
             text-align: center;
             color: #fff;
             font-size: 16px;
@@ -117,7 +130,7 @@
 
         @media (max-width: 650px) {
             #result-table {
-                font-size: 11.5px;
+                font-size: 11px;
             }
 
             #community-cards {
@@ -134,8 +147,12 @@
     </style>
 </head>
 <body>
-    <div id="community-cards"></div>
-    <div id="hand-cards"></div>
+    <div id="community-cards" class="card-container">
+        <div class="card-header">Community Cards</div>
+    </div>
+    <div id="hand-cards" class="card-container">
+        <div class="card-header">Hand Cards</div>
+    </div>
     <div id="probabilities">
         <h1>Probabilities</h1>
         <table id="result-table">

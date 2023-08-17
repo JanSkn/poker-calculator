@@ -1,83 +1,108 @@
+// Get references to HTML elements
 var communityCardsContainer = document.getElementById("community-cards");
 var handCardsContainer = document.getElementById("hand-cards");
 var cardList = document.getElementById("card-list");
 
+// Initialize card counts for community and hand
 var communityCardCount = 0;
 var handCardCount = 0;
 
+// Arrays to store community and hand cards
 var communityCardsArray = [];
 var handCardsArray = [];
 
+// Set up dragstart event listener for cards
 cardList.addEventListener("dragstart", function (event) {
+    // Set data for drag-and-drop
     event.dataTransfer.setData("text/plain", event.target.innerHTML);
+    event.dataTransfer.setData("card-color", event.target.classList);
 });
 
+// Set up dragover and drop event listeners for community cards
 communityCardsContainer.addEventListener("dragover", function (event) {
     event.preventDefault();
 });
 
 communityCardsContainer.addEventListener("drop", function (event) {
     event.preventDefault();
+    // Check if there's space for a new card
     if (communityCardCount < 5) {
         var card = event.dataTransfer.getData("text/plain");
+        var cardColor = event.dataTransfer.getData("card-color");
+        
+        // Create a new card element
         var cardElement = document.createElement("div");
         cardElement.className = "card";
+        cardElement.classList = cardColor;
         cardElement.innerHTML = card;
+        
+        // Set up click event listener for removing the card
         cardElement.addEventListener("click", function () {
             communityCardsContainer.removeChild(cardElement);
             communityCardCount--;
             enableCard(cardElement.innerHTML);
-            removeFromCommunityArray(cardElement.innerHTML); // Remove from array
+            removeFromCommunityArray(cardElement.innerHTML); 
         });
 
-        // Prüfen, ob die Karte bereits vorhanden ist
+        // Check if the card already exists in the community
         var existingCards = Array.from(communityCardsContainer.getElementsByClassName("card"));
         var isCardExisting = existingCards.some(function (existingCard) {
             return existingCard.innerHTML === cardElement.innerHTML;
         });
 
+        // Add the card to the community if it's not already there
         if (!isCardExisting) {
             communityCardsContainer.appendChild(cardElement);
             communityCardCount++;
             disableCard(cardElement.innerHTML);
-            addToCommunityArray(cardElement.innerHTML); // Add to array
+            addToCommunityArray(cardElement.innerHTML); 
         }
     }
 });
 
+// Set up dragover and drop event listeners for hand cards
 handCardsContainer.addEventListener("dragover", function (event) {
     event.preventDefault();
 });
 
 handCardsContainer.addEventListener("drop", function (event) {
     event.preventDefault();
+    // Check if there's space for a new card
     if (handCardCount < 2) {
         var card = event.dataTransfer.getData("text/plain");
+        var cardColor = event.dataTransfer.getData("card-color");
+        
+        // Create a new card element
         var cardElement = document.createElement("div");
         cardElement.className = "card";
+        cardElement.classList = cardColor;
         cardElement.innerHTML = card;
+        
+        // Set up click event listener for removing the card
         cardElement.addEventListener("click", function () {
             handCardsContainer.removeChild(cardElement);
             handCardCount--;
             enableCard(cardElement.innerHTML);
-            removeFromHandArray(cardElement.innerHTML); // Remove from array
+            removeFromHandArray(cardElement.innerHTML); 
         });
 
-        // Prüfen, ob die Karte bereits vorhanden ist
+        // Check if the card already exists in the hand
         var existingCards = Array.from(handCardsContainer.getElementsByClassName("card"));
         var isCardExisting = existingCards.some(function (existingCard) {
             return existingCard.innerHTML === cardElement.innerHTML;
         });
 
+        // Add the card to the hand if it's not already there
         if (!isCardExisting) {
             handCardsContainer.appendChild(cardElement);
             handCardCount++;
             disableCard(cardElement.innerHTML);
-            addToHandArray(cardElement.innerHTML); // Add to array
+            addToHandArray(cardElement.innerHTML); 
         }
     }
 });
 
+// Function to disable a card by adding "disabled" class
 function disableCard(card) {
     var cards = Array.from(cardList.getElementsByClassName("card"));
     cards.forEach(function (cardElement) {
@@ -88,6 +113,7 @@ function disableCard(card) {
     });
 }
 
+// Function to enable a card by removing "disabled" class
 function enableCard(card) {
     var cards = Array.from(cardList.getElementsByClassName("card"));
     cards.forEach(function (cardElement) {
@@ -102,7 +128,6 @@ function arraysEqual(arr1, arr2) {
     return arr1[0] === arr2[0] && arr1[1] === arr2[1];
 }
 
-// Add card to the community array
 function addToCommunityArray(card) {
     card = convertColour(card);
     if(!communityCardsArray.some(arr => arr[0] === card[0] && arr[1] === card[1])) {
@@ -111,14 +136,12 @@ function addToCommunityArray(card) {
     }
 }
 
-// Remove card from the community array
 function removeFromCommunityArray(card) {
     card = convertColour(card);
     communityCardsArray = communityCardsArray.filter(arr => !arraysEqual(arr, card));
     communityCardsAPI();
 }
 
-// Add card to the hand array
 function addToHandArray(card) {
     card = convertColour(card);
     if(!handCardsArray.some(arr => arr[0] === card[0] && arr[1] === card[1])) {
@@ -127,8 +150,6 @@ function addToHandArray(card) {
     }
 }
 
-
-// Remove card from the hand array
 function removeFromHandArray(card) {
     card = convertColour(card);
     handCardsArray = handCardsArray.filter(arr => !arraysEqual(arr, card));
@@ -138,7 +159,7 @@ function removeFromHandArray(card) {
 function convertColour(card) {
     // Index for symbols is 2 because of the Blank Character
     switch(card[0]) {
-        case "\u2665": // Heart
+        case "\u2665": // Hearts
             card = ["Hearts", card[2]]; 
             break;
         case "\u2666": // Diamonds
@@ -157,6 +178,7 @@ function convertColour(card) {
     return card;
 }
 
+// Function to update hand cards using API
 async function handCardsAPI() {
     const data = handCardsArray;
 
@@ -180,6 +202,7 @@ async function handCardsAPI() {
     }
 }
 
+// Function to update community cards using API
 async function communityCardsAPI() {
     const data = communityCardsArray;
 

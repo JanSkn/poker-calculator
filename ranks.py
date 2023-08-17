@@ -1,4 +1,8 @@
 def ranks(card_combinations: list):
+    """
+    Gets all possible card combinations as a 7-tuple and calculates the probability for each rank
+    If there is an occurance of a rank that is covered by a higher rank, it will not be listed
+    """
     occurances = {"Straight Flush": 0, "Four-of-a-Kind": 0, "Full House": 0, "Flush": 0, "Straight": 0, "Three-of-a-Kind": 0, "Two Pair": 0, "Pair": 0, "Highest Card": 0}
     is_rank = {"Straight Flush": False, "Four-of-a-Kind": False, "Full House": False, "Flush": False, "Straight": False, "Three-of-a-Kind": False, "Two Pair": False, "Pair": False}
 
@@ -11,15 +15,30 @@ def ranks(card_combinations: list):
         for colour in colours:
             if colours.count(colour) >= 5:
                 flush_colour = colour
-    
+                break
+        
+        # add all flush cards to later check if it is a straight
         for card in cards:
             if card.get_colour() == flush_colour:
                 straight_flush.append(card)
 
-        straight_flush = get_symbols(sorted(straight_flush, key=lambda card: int(card.get_symbol()))) 
+        straight_flush = get_symbols(sorted(straight_flush, key=lambda card: card.get_symbol()))
 
+        # check if it is a "A, 2, 3, 4, 5" straight
+        # sum of 2, 3, 4, 5 equals 14
+        if len(straight_flush) >= 5 and straight_flush[-1] == 14: 
+            sum = 0
+            for i in range(4):
+                sum += straight_flush[i]
+            if sum == 14: 
+                occurances["Straight Flush"] += 1
+                is_rank["Straight Flush"] = True
+                return   
+
+        # no duplicates in straight_flush list
+        # if it is a straight, 5 consecutive cards must have difference of 1
         for i in range(len(straight_flush) - 1):
-                if int(straight_flush[i + 1]) - int(straight_flush[i]) == 1:
+                if straight_flush[i + 1] - straight_flush[i] == 1:
                     counter += 1
                 else: 
                     counter = 0
@@ -27,7 +46,7 @@ def ranks(card_combinations: list):
                 if counter == 4: 
                     occurances["Straight Flush"] += 1
                     is_rank["Straight Flush"] = True
-                    break
+                    return
                 else:
                     is_rank["Straight Flush"] = False
 
@@ -37,7 +56,7 @@ def ranks(card_combinations: list):
                 if symbols.count(symbol) == 4: 
                     occurances["Four-of-a-Kind"] += 1
                     is_rank["Four-of-a-Kind"] = True
-                    break
+                    return
                 else:
                     is_rank["Four-of-a-Kind"] = False
     
@@ -52,6 +71,7 @@ def ranks(card_combinations: list):
                     full_house.add(symbol)
                     num_of_triples += 1
 
+            # Full House must contain at least one triple
             if len(full_house) >= 2 and num_of_triples >= 1: 
                 occurances["Full House"] += 1
                 is_rank["Full House"] = True
@@ -64,7 +84,7 @@ def ranks(card_combinations: list):
                 if colours.count(colour) >= 5: 
                     occurances["Flush"] += 1
                     is_rank["Flush"] = True
-                    break
+                    return
                 else:
                     is_rank["Flush"] = False
 
@@ -77,8 +97,20 @@ def ranks(card_combinations: list):
             
             straight = sorted(straight, key=int)
 
+            # check if it is a "A, 2, 3, 4, 5" straight
+            # sum of 2, 3, 4, 5 equals 14
+            if len(straight) >= 5 and straight[-1] == 14:
+                sum = 0
+                for i in range(4):
+                    sum += straight[i]
+                if sum == 14: 
+                    occurances["Straight"] += 1
+                    is_rank["Straight"] = True
+                    return                  
+
+            # if it is a straight, 5 consecutive cards must have difference of 1
             for i in range(len(straight) - 1):
-                if int(straight[i + 1]) - int(straight[i]) == 1:
+                if straight[i + 1] - straight[i] == 1:
                     counter += 1
                 else: 
                     counter = 0
@@ -86,7 +118,7 @@ def ranks(card_combinations: list):
                 if counter == 4: 
                     occurances["Straight"] += 1
                     is_rank["Straight"] = True
-                    break
+                    return
                 else:
                     is_rank["Straight"] = False
 
@@ -96,7 +128,7 @@ def ranks(card_combinations: list):
                 if symbols.count(symbol) == 3:
                     occurances["Three-of-a-Kind"] += 1
                     is_rank["Three-of-a-Kind"] = True
-                    break
+                    return
                 else:
                     is_rank["Three-of-a-Kind"] = False
 
@@ -119,7 +151,7 @@ def ranks(card_combinations: list):
                 if symbols.count(symbol) == 2:
                     occurances["Pair"] += 1
                     is_rank["Pair"] = True
-                    break
+                    return
                 else:
                     is_rank["Pair"] = False
 
@@ -152,24 +184,35 @@ def ranks(card_combinations: list):
     return percentages
 
 def convert_symbols_to_values(cards: tuple):
+    """
+    Converts the symbols from 1-10 and especially J, Q, K and A to integers
+    """
     for card in cards:
         if card.get_symbol() == "J":
-            card.symbol = "11"
+            card.symbol = 11
         elif card.get_symbol() == "Q":
-            card.symbol = "12"
+            card.symbol = 12
         elif card.get_symbol() == "K":
-            card.symbol = "13"
+            card.symbol = 13
         elif card.get_symbol() == "A":
-            card.symbol = "14"
+            card.symbol = 14
+        else:
+            card.symbol = int(card.symbol)
     return cards
 
 def get_symbols(cards: tuple):
+    """
+    Extracts the symbols from each card object of a 7-tuple
+    """
     symbols = []
     for card in cards:
         symbols.append(card.get_symbol())
     return symbols
 
 def get_colours(cards: tuple):
+    """
+    Extracts the colours from each card object of a 7-tuple
+    """
     colours = []
     for card in cards:
         colours.append(card.get_colour())

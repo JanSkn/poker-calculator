@@ -1,6 +1,9 @@
 from ranks import ranks
 
 class Card:
+    """
+    Card object contains a colour and a symbol
+    """
     def __init__(self, colour, symbol):
         self.colour = colour
         self.symbol = symbol
@@ -21,20 +24,20 @@ symbols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 def update_cards(hand_cards: list, community_cards: list): 
     """
-    Wrapper function, call this function for the REST API
+    Wrapper function, call this function for the API
     """
     hand_cards = convert_to_card_objects(hand_cards)
     community_cards = convert_to_card_objects(community_cards)
     get_hand_cards(hand_cards)
     get_community_cards(community_cards)
     covered_cards = update_covered_cards(hand_cards, community_cards)
-    return community(hand_cards, community_cards, covered_cards)
+    return create_combinations(hand_cards, community_cards, covered_cards)
 
 # -------------------------
 
 def get_card_index(card_list: list, searched_card: Card):
     """
-    returns the index of a card in an array
+    Returns the index of a card in a list
     """
     for i, card in enumerate(card_list):
         if card.colour == searched_card.colour and card.symbol == searched_card.symbol:
@@ -43,11 +46,9 @@ def get_card_index(card_list: list, searched_card: Card):
 
 def convert_to_card_objects(cards: list):
     """
-    changes representation of a card from a tuple to a card object
+    Changes representation of a card from a tuple to a card object
     """
     return [Card(colour, symbol) for colour, symbol in cards]
-
-cards = [Card(colour, symbol) for colour in colours for symbol in symbols]
 
 def get_hand_cards(hand_cards: list): 
     print("Hand cards:")
@@ -65,14 +66,18 @@ def update_covered_cards(hand_cards: list, community_cards: list):
     """
     Remove revealed cards (hand cards and community cards) from the stack of all cards
     """
-    covered_cards = cards.copy()
-    for card in hand_cards:
-        covered_cards.pop(get_card_index(covered_cards, card))  
-    for card in community_cards:
-        covered_cards.pop(get_card_index(covered_cards, card))  
-    return covered_cards
+    cards = [Card(colour, symbol) for colour in colours for symbol in symbols]
 
-def community(hand_cards: list, community_cards: list, covered_cards: list):
+    for card in hand_cards:
+        cards.pop(get_card_index(cards, card))  
+    for card in community_cards:
+        cards.pop(get_card_index(cards, card))  
+    return cards
+
+def create_combinations(hand_cards: list, community_cards: list, covered_cards: list):
+    """
+    Creates all possible card combinations for each stage (Flop, Turn, River) to determine the probabilities
+    """
     uncovered_cards = hand_cards + community_cards
     card_combinations = []
 
