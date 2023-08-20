@@ -35,7 +35,7 @@ Royal Flush is not listed since it is the highest Straight Flush and only has 4 
 
 The frontend of this project was made with HTML and Javascript, the calculations are done with Python. Data is exchanged with REST-Api.
 
-Please note that the calculator does not consider other players yet.
+Please note that the calculator only considers one players so far.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -43,7 +43,7 @@ Please note that the calculator does not consider other players yet.
 
 ### Built With
 
-This project was build with
+This project was built with
 
 * HTML
 * JavaScript
@@ -58,15 +58,16 @@ This project was build with
 
 _Follow these steps to run the project._
 
-1. Clone the repo
+1. Install Python
+2. Clone the repo
    ```sh
    git clone https://github.com/janskn/poker-calculator.git
    ```
-2. Install FastAPI
+3. Install FastAPI
    ```sh
    pip install fastapi
    ```
-3. Install Uvicorn
+4. Install Uvicorn
    ```sh
    pip install uvicorn
    ```
@@ -94,8 +95,6 @@ Remove a card by clicking it.
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
