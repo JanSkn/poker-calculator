@@ -58,11 +58,11 @@ This project was built with
 
 _Follow these steps to run the project._
 
-1. Install Python
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/janskn/poker-calculator.git
    ```
+2. Install Python
 3. Install FastAPI
    ```sh
    pip install fastapi
