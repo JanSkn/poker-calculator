@@ -16,6 +16,10 @@ def ranks(card_combinations: list):
             if colours.count(colour) >= 5:
                 flush_colour = colour
                 break
+
+        if flush_colour == "":
+            is_rank["Straight Flush"] = False
+            return
         
         # add all flush cards to later check if it is a straight
         for card in cards:
