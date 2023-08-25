@@ -33,7 +33,7 @@ Example: Three-of-a-Kind is also a Pair, but in this case, the Pair is not consi
 
 Royal Flush is not listed since it is the highest Straight Flush and only has 4 possibilities.
 
-The frontend of this project was made with HTML and Javascript, the calculations are done with Python. Data is exchanged with REST-Api.
+The frontend of this project was made with HTML and JavaScript, the calculations are done with Python. Data is exchanged with REST-Api.
 
 Please note that the calculator only considers one players so far.
 
