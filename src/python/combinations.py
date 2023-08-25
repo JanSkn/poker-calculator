@@ -4,7 +4,7 @@ class Card:
     """
     Card object contains a colour and a symbol
     """
-    def __init__(self, colour, symbol):
+    def __init__(self, colour: str, symbol: str):
         self.colour = colour
         self.symbol = symbol
     
