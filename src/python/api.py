@@ -17,14 +17,14 @@ app.add_middleware(
 )
 
 @app.post("/update_hand_cards")
-async def update_hand_cards(cards: list):
+async def update_hand_cards(cards: list[list]):
     global hand_cards
     hand_cards = cards
     result = update_cards(hand_cards, community_cards)
     return result
 
 @app.post("/update_community_cards")
-async def update_community_cards(cards: list):
+async def update_community_cards(cards: list[list]):
     global community_cards 
     community_cards = cards
     result = update_cards(hand_cards, community_cards)
