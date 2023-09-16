@@ -1,4 +1,32 @@
+// Reset on page refresh
+
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        const makePostRequest = async (url, data) => {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                console.error("Error: ", response.status, response.statusText);
+            }
+        };
+
+        // Send empty arrays to easily clear the cards on refresh
+        await makePostRequest("http://localhost:8000/update_community_cards", []);
+        await makePostRequest("http://localhost:8000/update_hand_cards", []);
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
 // Get references to HTML elements
+
 var communityCardsContainer = document.getElementById("community-cards");
 var handCardsContainer = document.getElementById("hand-cards");
 var cardList = document.getElementById("card-list");
