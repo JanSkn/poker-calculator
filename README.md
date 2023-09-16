@@ -71,7 +71,11 @@ _Follow these steps to run the project._
    ```sh
    pip install fastapi
    ```
-4. Install Uvicorn
+4. Install Python-Multipart
+   ```sh
+   pip install python-multipart
+   ```
+5. Install Uvicorn
    ```sh
    pip install uvicorn
    ```
