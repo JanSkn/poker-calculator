@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/janskn/poker-calculator">
-    <img src="src/frontend/images/logo.jpg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/github-images/images/blob/main/poker-calculator.jpg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Poker Calculator</h3>
