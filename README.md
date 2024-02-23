@@ -26,6 +26,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<img width="1470" alt="image" src="https://github.com/JanSkn/poker-calculator/assets/68644413/cb7a68e0-d310-4767-865a-c2b62415e9d4">
+
+<br /><br />
 This poker calculator for Texas Hold'em determines the odds of each card rank for every stage (Flop, Turn, River).
 
 If there is an occurance of a rank that is covered by a higher rank, it will not be counted. 
