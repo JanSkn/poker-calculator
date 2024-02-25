@@ -45,20 +45,7 @@ Please note that the calculator only considers one player so far.
 
 
 
-### Built With
-
-This project was built with
-
-* HTML
-* JavaScript
-* Python
-* FetchAPI/FastAPI
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Installation
+## Installation
 
 _Follow these steps to run the project._
 
@@ -82,6 +69,19 @@ _Follow these steps to run the project._
    ```sh
    pip install uvicorn
    ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+### Built With
+
+This project was built with
+
+* HTML
+* JavaScript
+* Python
+* FetchAPI/FastAPI
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
